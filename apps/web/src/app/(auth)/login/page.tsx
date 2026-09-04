@@ -68,6 +68,7 @@ export default function LoginPage() {
         emailVerified: new Date().toISOString(),
         phoneVerified: new Date().toISOString(),
         isActive: true,
+        lastLoginAt: null,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
