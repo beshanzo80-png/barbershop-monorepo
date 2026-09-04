@@ -13,3 +13,4 @@ export { Toast, ToastProvider, ToastViewport, ToastTitle, ToastDescription, Toas
 export { Dialog, DialogPortal, DialogOverlay, DialogClose, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from './Dialog';
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './Tabs';
 export { Progress } from './Progress';
+export { Switch } from './Switch';

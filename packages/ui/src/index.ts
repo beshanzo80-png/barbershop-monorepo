@@ -12,3 +12,4 @@ export * from './components/organisms';
 
 // Lib
 export { cn } from './lib/utils';
+export { toast } from 'react-hot-toast';
