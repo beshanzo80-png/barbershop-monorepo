@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { BarberCard } from '../molecules';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 import { Wifi, Star, Clock, MapPin } from 'lucide-react';
 import type { Barber } from '@barbershop/types';
 

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Card, CardContent } from '../atoms';
 import { Badge } from '../atoms';
 import { Checkbox } from '../atoms';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 import { formatCurrency, formatDuration } from '@barbershop/utils';
 import type { Service, ServiceCategory } from '@barbershop/types';
 

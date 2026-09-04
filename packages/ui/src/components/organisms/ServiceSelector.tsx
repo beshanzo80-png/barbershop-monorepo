@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { ServiceCard } from '../molecules';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../atoms';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 import { Filter, Star } from 'lucide-react';
 import type { Service, ServiceCategory } from '@barbershop/types';
 

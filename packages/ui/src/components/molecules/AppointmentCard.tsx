@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter } from '../atoms';
 import { Badge } from '../atoms';
 import { Button } from '../atoms';
 import { Avatar, AvatarImage, AvatarFallback } from '../atoms';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 import { formatDate, formatTime, formatCurrency, appointmentStatusLabels, appointmentStatusColors } from '@barbershop/utils';
 import { Calendar, Clock, MapPin, X, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import type { Appointment, AppointmentStatus } from '@barbershop/types';

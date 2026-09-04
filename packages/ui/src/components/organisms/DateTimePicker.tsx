@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { DayPicker, type DayPickerProps } from 'react-day-picker';
-import { cn, formatDate, formatTime, getShortDayName } from '@/lib/utils';
+import { cn, formatDate, formatTime, getShortDayName } from '../../lib/utils';
 import { Button } from '../atoms';
 import { TimeSlot } from '../molecules';
 import { ChevronLeft, ChevronRight, Calendar, Clock } from 'lucide-react';

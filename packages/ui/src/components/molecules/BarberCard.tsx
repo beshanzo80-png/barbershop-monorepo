@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Card, CardContent } from '../atoms';
 import { Badge } from '../atoms';
 import { Avatar, AvatarImage, AvatarFallback } from '../atoms';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 import { formatDuration } from '@barbershop/utils';
 import { Star } from 'lucide-react';
 import type { Barber } from '@barbershop/types';

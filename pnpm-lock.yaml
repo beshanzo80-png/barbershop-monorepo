@@ -150,6 +150,9 @@ importers:
         specifier: ^4.5.0
         version: 4.5.7(@types/react@18.3.31)(react@18.3.1)
     devDependencies:
+      '@barbershop/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6

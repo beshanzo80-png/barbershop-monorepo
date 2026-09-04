@@ -1,5 +1,19 @@
 {
   "name": "@barbershop/config",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "files": [
+    "*.json",
+    "*.js",
+    "*.ts"
+  ],
+  "exports": {
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./tsconfig.nextjs.json": "./tsconfig.nextjs.json",
+    "./tsconfig.react-library.json": "./tsconfig.react-library.json",
+    "./eslint.base.js": "./eslint.base.js",
+    "./eslint.next.js": "./eslint.next.js",
+    "./prettier.config.js": "./prettier.config.js",
+    "./tailwind.config.ts": "./tailwind.config.ts"
+  }
 }
