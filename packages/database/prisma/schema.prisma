@@ -190,6 +190,7 @@ model Barber {
   preferredBy      Customer[] @relation("PreferredBarber")
   services         BarberService[]
   portfolio        PortfolioImage[]
+  favorites        Favorite[]
 
   @@map("barbers")
 }
@@ -237,6 +238,7 @@ model Service {
 
   barberServices BarberService[]
   appointments     AppointmentService[]
+  favorites      Favorite[]
 
   @@map("services")
 }
