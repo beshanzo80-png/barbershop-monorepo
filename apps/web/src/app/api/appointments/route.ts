@@ -82,14 +82,14 @@ export async function POST(request: NextRequest) {
     // Validate services and calculate totals
     const services = await prisma.service.findMany({
       where: { id: { in: validated.serviceIds } },
-    });
+    }) as Array<{ id: string; name: string; duration: number; price: unknown }>;
 
     if (services.length !== validated.serviceIds.length) {
       return NextResponse.json({ error: 'Invalid services' }, { status: 400 });
     }
 
-    const totalDuration = services.reduce((sum, s) => sum + s.duration, 0);
-    const totalPrice = services.reduce((sum, s) => sum + Number(s.price), 0);
+    const totalDuration = services.reduce<number>((sum, service) => sum + service.duration, 0);
+    const totalPrice = services.reduce<number>((sum, service) => sum + Number(service.price), 0);
 
     // Apply online discount
     let discount = 0;
@@ -135,11 +135,11 @@ export async function POST(request: NextRequest) {
         paymentMethod: validated.paymentMethod,
         notes: validated.notes,
         services: {
-          create: services.map((s, i) => ({
-            serviceId: s.id,
-            price: Number(s.price),
-            duration: s.duration,
-            sortOrder: i,
+          create: services.map((service, index) => ({
+            serviceId: service.id,
+            price: Number(service.price),
+            duration: service.duration,
+            sortOrder: index,
           })),
         },
       },
@@ -158,13 +158,13 @@ export async function POST(request: NextRequest) {
           appointmentUuid: appointment.id,
           customer: {
             id: session.user.id,
-            name: session.user.name,
+            name: session.user.name || 'Müşteri',
             email: validated.email || session.user.email || '',
             phone: validated.phone,
           },
-          services: services.map(s => ({ id: s.id, name: s.name, price: Number(s.price) })),
+          services: services.map(service => ({ id: service.id, name: service.name, price: Number(service.price) })),
           totalPrice: finalPrice,
-          callbackUrl: `${process.env.NEXTAUTH_URL}/api/payments/callback`,
+          callbackUrl: `${process.env['NEXTAUTH_URL'] || ''}/api/payments/callback`,
           clientIp: request.headers.get('x-forwarded-for') || 'unknown',
         });
 
@@ -190,13 +190,13 @@ export async function POST(request: NextRequest) {
     // Send confirmation notification
     try {
       await NotificationService.sendNotification(customer.userId, 'APPOINTMENT_CONFIRMED', {
-        customerName: session.user.name,
+        customerName: session.user.name || 'Müşteri',
         barberName: appointment.barber.user.name,
         date: appointment.startTime,
         time: validated.time,
-        services: services.map(s => s.name),
+        services: services.map(service => service.name),
         totalPrice: finalPrice,
-        appointmentUrl: `${process.env.NEXTAUTH_URL}/appointments/${appointment.id}`,
+        appointmentUrl: `${process.env['NEXTAUTH_URL'] || ''}/appointments/${appointment.id}`,
       });
     } catch (error) {
       console.error('Notification failed:', error);

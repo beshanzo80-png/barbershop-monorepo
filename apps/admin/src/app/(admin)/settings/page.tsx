@@ -9,7 +9,7 @@ import {
 } from '@barbershop/ui';
 import {
   Settings, Bell, Shield, Palette, Globe, Database, CreditCard,
-  Users, Scissors, Clock, Save, AlertTriangle, CheckCircle
+  Users, Scissors, Clock, Save, AlertTriangle, CheckCircle, Calendar, Mail, Target
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
@@ -314,8 +314,8 @@ export default function SettingsPage() {
             <div className="space-y-3">
               <SettingRow label="Koyu Tema" description="Sistem tercihine göre otomatik" children={<Switch defaultChecked={appearanceSettings.darkMode} />} />
               <SettingRow label="Animasyonlar" description="Sayfa geçişleri ve mikro etkileşimler" children={<Switch defaultChecked={appearanceSettings.animations} />} />
-              <SettingRow label="Kompakt Mod" description "Daha yoğun bilgi görünümü" children={<Switch defaultChecked={appearanceSettings.compactMode} />} />
-              <SettingRow label="Marka Rengi" description "Ana vurgulama rengi (Gold)">
+              <SettingRow label="Kompakt Mod" description="Daha yoğun bilgi görünümü" children={<Switch defaultChecked={appearanceSettings.compactMode} />} />
+              <SettingRow label="Marka Rengi" description="Ana vurgulama rengi (Gold)">
                 <Input defaultValue={appearanceSettings.primaryColor} type="color" className="w-12 h-10 rounded-lg cursor-pointer border-0 p-0" />
               </SettingRow>
             </div>
@@ -331,7 +331,7 @@ export default function SettingsPage() {
             </Button>
           }>
             <div className="space-y-4">
-              <SettingRow label="İyzico Aktif" description "Online ödeme kabul et" children={<Switch defaultChecked={paymentSettings.iyzicoEnabled} />} />
+              <SettingRow label="İyzico Aktif" description="Online ödeme kabul et" children={<Switch defaultChecked={paymentSettings.iyzicoEnabled} />} />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input label="API Key" type="password" defaultValue={paymentSettings.iyzicoApiKey} />
                 <Input label="Secret Key" type="password" defaultValue={paymentSettings.iyzicoSecretKey} />
@@ -351,7 +351,7 @@ export default function SettingsPage() {
 
           <SettingsSection title="İndirim ve Sadakat" icon={Target}>
             <div className="space-y-4">
-              <SettingRow label="Online Ödeme İndirimi (%)" description "Online ödeme yapan müşterilere otomatik indirim" children={
+              <SettingRow label="Online Ödeme İndirimi (%)" description="Online ödeme yapan müşterilere otomatik indirim" children={
                 <Select defaultValue={paymentSettings.onlineDiscount.toString()}>
                   <SelectTrigger className="w-[100px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -359,7 +359,7 @@ export default function SettingsPage() {
                   </SelectContent>
                 </Select>
               } />
-              <SettingRow label="TL Başına Puan" description "1 TL = X Puan kazancı" children={
+              <SettingRow label="TL Başına Puan" description="1 TL = X Puan kazancı" children={
                 <Input type="number" defaultValue={paymentSettings.pointsPerTl} className="w-[100px]" />
               } />
             </div>

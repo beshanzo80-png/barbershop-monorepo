@@ -53,7 +53,8 @@
     "@barbershop/database": "workspace:*",
     "@barbershop/types": "workspace:*",
     "@barbershop/utils": "workspace:*",
-    "@barbershop/web-hooks": "workspace:*"
+    "@barbershop/web-hooks": "workspace:*",
+    "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
     "@barbershop/config": "workspace:*",
