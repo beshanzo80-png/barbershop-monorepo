@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/app/api/auth/[...nextauth]/route';
-import { prisma } from '@barbershop/db';
+import { prisma } from '@barbershop/database';
 import { z } from 'zod';
 import { getIyzicoService, createBarbershopPaymentRequest } from '@barbershop/payments';
 import { NotificationService } from '@barbershop/notifications';

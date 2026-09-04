@@ -5,7 +5,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@barbershop/ui/*": ["../../packages/ui/src/*"],
-      "@barbershop/db/*": ["../../packages/database/src/*"],
+      "@barbershop/database/*": ["../../packages/database/src/*"],
       "@barbershop/types/*": ["../../packages/types/*"],
       "@barbershop/utils/*": ["../../packages/utils/*"],
       "@barbershop/web-hooks/*": ["../../packages/web-hooks/src/*"]

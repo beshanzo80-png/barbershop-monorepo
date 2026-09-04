@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIyzicoService } from '@barbershop/payments';
-import { prisma } from '@barbershop/db';
+import { prisma } from '@barbershop/database';
 import { NotificationService } from '@barbershop/notifications';
 
 export async function POST(request: NextRequest) {

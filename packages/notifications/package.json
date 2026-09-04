@@ -15,9 +15,9 @@
     "zod": "^3.23.0",
     "date-fns": "^3.6.0",
     "date-fns-tz": "^3.1.0",
-    "@barbershop/types": "*",
-    "@barbershop/db": "*",
-    "@barbershop/utils": "*"
+    "@barbershop/types": "workspace:*",
+    "@barbershop/database": "workspace:*",
+    "@barbershop/utils": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.5.0",

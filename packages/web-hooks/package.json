@@ -10,16 +10,17 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "zustand": "catalog:",
-    "@tanstack/react-query": "catalog:",
+    "zustand": "^4.5.0",
+    "@tanstack/react-query": "^5.40.0",
     "axios": "^1.7.0",
-    "@barbershop/types": "*",
-    "@barbershop/utils": "*"
+    "@barbershop/types": "workspace:*",
+    "@barbershop/utils": "workspace:*",
+    "@barbershop/ui": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "catalog:",
-    "@types/react": "catalog:",
-    "eslint": "catalog:",
-    "prettier": "catalog:"
+    "typescript": "^5.5.0",
+    "@types/react": "^18.3.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.0"
   }
 }

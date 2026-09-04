@@ -16,8 +16,8 @@
     "jsonwebtoken": "^9.0.0",
     "zod": "^3.23.0",
     "dotenv": "^16.4.0",
-    "@barbershop/types": "*",
-    "@barbershop/db": "*"
+    "@barbershop/types": "workspace:*",
+    "@barbershop/database": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.5.0",

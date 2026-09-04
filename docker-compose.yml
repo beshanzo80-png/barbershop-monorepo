@@ -181,7 +181,7 @@ services:
       dockerfile: apps/web/Dockerfile
       target: builder
     container_name: barbershop-prisma-studio
-    command: pnpm --filter=@barbershop/db db:studio
+    command: pnpm --filter=@barbershop/database db:studio
     ports:
       - "5555:5555"
     environment:

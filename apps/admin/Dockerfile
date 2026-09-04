@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/packages ./packages
 COPY --from=deps /app/apps/admin ./apps/admin
-RUN corepack enable pnpm && pnpm --filter=@barbershop/db db:generate
+RUN corepack enable pnpm && pnpm --filter=@barbershop/database db:generate
 
 FROM base AS builder
 WORKDIR /app

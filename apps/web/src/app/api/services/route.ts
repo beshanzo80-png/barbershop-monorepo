@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@barbershop/db';
+import { prisma } from '@barbershop/database';
 import { auth } from '@/app/api/auth/[...nextauth]/route';
 
 export async function GET(request: NextRequest) {

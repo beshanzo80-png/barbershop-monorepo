@@ -10,8 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "typescript": "catalog:",
-    "eslint": "catalog:",
-    "prettier": "catalog:"
+    "typescript": "^5.5.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.0"
   }
 }
