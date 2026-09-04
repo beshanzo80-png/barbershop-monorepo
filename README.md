@@ -96,11 +96,11 @@ NEXT_PUBLIC_SOCKET_URL="http://localhost:3001"
 ```bash
 # Development
 pnpm dev              # Start all apps in dev mode
-pnpm dev --filter=web # Start only web app
+pnpm --filter=@barbershop/web dev # Start only web app
 
 # Building
 pnpm build            # Build all apps
-pnpm build --filter=web
+pnpm --filter=@barbershop/web build
 
 # Database
 pnpm db:generate      # Generate Prisma client
@@ -250,7 +250,10 @@ cd apps/web && pnpm playwright test
 ### Vercel (Frontend)
 1. Connect GitHub repo to Vercel
 2. Add environment variables
-3. Deploy automatically on push
+3. Set the project root directory to `apps/web`
+4. Set Install Command to `cd ../.. && pnpm install --frozen-lockfile`
+5. Set Build Command to `pnpm run build`
+6. Deploy automatically on push
 
 ### Railway/Render (Backend)
 1. Add PostgreSQL database
