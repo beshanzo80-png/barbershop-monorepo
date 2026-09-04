@@ -3,14 +3,41 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@barbershop/ui/*": ["../../packages/ui/src/*"],
-      "@barbershop/database/*": ["../../packages/database/src/*"],
-      "@barbershop/types/*": ["../../packages/types/*"],
-      "@barbershop/utils/*": ["../../packages/utils/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@barbershop/ui/*": [
+        "../../packages/ui/src/*"
+      ],
+      "@barbershop/database/*": [
+        "../../packages/database/src/*"
+      ],
+      "@barbershop/types/*": [
+        "../../packages/types/*"
+      ],
+      "@barbershop/utils/*": [
+        "../../packages/utils/*"
+      ],
+      "@barbershop/web-hooks": [
+        "../../packages/web-hooks/src/index.ts"
+      ],
+      "@barbershop/web-hooks/*": [
+        "../../packages/web-hooks/src/*"
+      ]
     },
-    "plugins": [{ "name": "next" }]
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
