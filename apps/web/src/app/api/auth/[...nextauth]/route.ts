@@ -6,7 +6,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@barbershop/database';
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+const { handlers } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt',
@@ -130,3 +130,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   debug: process.env.NODE_ENV === 'development',
 });
+
+export const { GET, POST } = handlers;
