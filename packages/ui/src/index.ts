@@ -10,8 +10,5 @@ export * from './components/molecules';
 // Organisms
 export * from './components/organisms';
 
-// Templates
-export * from './components/templates';
-
 // Lib
 export { cn } from './lib/utils';

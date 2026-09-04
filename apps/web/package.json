@@ -75,6 +75,7 @@
     "@typescript-eslint/parser": "^7.16.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-tailwindcss": "^3.18.2",
+    "@tanstack/react-query-devtools": "^5.40.0",
     "vitest": "^2.0.0",
     "@testing-library/react": "^16.0.0",
     "@testing-library/jest-dom": "^6.4.0",

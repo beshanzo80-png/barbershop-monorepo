@@ -130,23 +130,8 @@ export default function AppointmentsPage() {
         </TabsList>
 
         <TabsContent value="upcoming" className="space-y-3 animate-in fade-in-0">
-          {isLoading ? (
-            <div className="space-y-3">
-              {[1, 2, 3].map(i => (
-                <Card key={i} className="animate-pulse">
-                  <CardContent className="p-4">
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-bg-tertiary" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-4 bg-bg-tertiary rounded w-3/4" />
-                        <div className="h-3 bg-bg-tertiary rounded w-1/2" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : upcomingAppointments.length === 0 ? (
+          {isLoading && <p>Randevular yükleniyor...</p>}
+          {!isLoading && upcomingAppointments.length === 0 && (
             <Card>
               <CardContent className="py-12 text-center">
                 <Calendar className="h-16 w-16 mx-auto text-text-muted mb-4" />
@@ -157,25 +142,27 @@ export default function AppointmentsPage() {
                 </Button>
               </CardContent>
             </Card>
-          ) : (
-            upcomingAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} />)
           )}
+          {!isLoading && upcomingAppointments.map(appt => (
+            <AppointmentCard key={appt.id} appointment={appt} />
+          ))}
+        </TabsContent>
 
-          <TabsContent value="past" className="space-y-3 animate-in fade-in-0">
-            {pastAppointments.length === 0 ? (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <Clock className="h-16 w-16 mx-auto text-text-muted mb-4" />
-                  <h3 className="text-lg font-medium text-text-primary mb-1">Henüz geçmiş randevunuz yok</h3>
-                  <p className="text-text-secondary">Randevunuz tamamlandığında burada görünecek</p>
-                </CardContent>
-              </Card>
-            ) : (
-              pastAppointments.map(appt => <AppointmentCard key={appt.id} appointment={appt} />)
-            )}
-          </TabsContent>
-        </Tabs>
-      </div>
+        <TabsContent value="past" className="space-y-3 animate-in fade-in-0">
+          {pastAppointments.length === 0 && (
+            <Card>
+              <CardContent className="py-12 text-center">
+                <Clock className="h-16 w-16 mx-auto text-text-muted mb-4" />
+                <h3 className="text-lg font-medium text-text-primary mb-1">Henüz geçmiş randevunuz yok</h3>
+                <p className="text-text-secondary">Randevunuz tamamlandığında burada görünecek</p>
+              </CardContent>
+            </Card>
+          )}
+          {pastAppointments.map(appt => (
+            <AppointmentCard key={appt.id} appointment={appt} />
+          ))}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
