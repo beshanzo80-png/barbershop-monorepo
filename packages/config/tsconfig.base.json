@@ -17,6 +17,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["./*"],
       "@barbershop/ui/*": ["packages/ui/src/*"],
