@@ -1,0 +1,15 @@
+{
+  "extends": "@barbershop/config/tsconfig.react-library.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@barbershop/utils/*": ["../utils/*"],
+      "@barbershop/types/*": ["../types/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

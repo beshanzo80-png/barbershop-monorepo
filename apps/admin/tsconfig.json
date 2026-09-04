@@ -1,0 +1,17 @@
+{
+  "extends": "@barbershop/config/tsconfig.nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@barbershop/ui/*": ["../../packages/ui/src/*"],
+      "@barbershop/db/*": ["../../packages/database/src/*"],
+      "@barbershop/types/*": ["../../packages/types/*"],
+      "@barbershop/utils/*": ["../../packages/utils/*"],
+      "@barbershop/web-hooks/*": ["../../packages/web-hooks/src/*"]
+    },
+    "plugins": [{ "name": "next" }]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

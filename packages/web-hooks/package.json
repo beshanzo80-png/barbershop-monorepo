@@ -1,0 +1,25 @@
+{
+  "name": "@barbershop/web-hooks",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zustand": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "axios": "^1.7.0",
+    "@barbershop/types": "*",
+    "@barbershop/utils": "*"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "@types/react": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:"
+  }
+}

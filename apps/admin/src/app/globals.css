@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 13 13 13;
+    --foreground: 255 255 255;
+  }
+
+  * { @apply border-border-subtle; }
+  html { @apply scroll-smooth; }
+  
+  body {
+    @apply bg-bg-primary text-text-primary font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold-primary ring-offset-2 ring-offset-bg-primary;
+  }
+
+  ::selection { @apply bg-gold-primary/30 text-text-on-gold; }
+
+  ::-webkit-scrollbar { @apply w-2 h-2; }
+  ::-webkit-scrollbar-track { @apply bg-bg-secondary; }
+  ::-webkit-scrollbar-thumb { @apply bg-bg-tertiary rounded-full hover:bg-border-default; }
+}
+
+@layer components {
+  .container { @apply mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8; }
+  .page-layout { @apply min-h-screen; }
+  .sidebar-layout { @apply flex h-screen overflow-hidden; }
+  .sidebar { @apply w-64 bg-bg-secondary border-r border-border-subtle flex flex-col; }
+  .main-content { @apply flex-1 overflow-y-auto p-6; }
+  
+  .card-hover { @apply transition-all duration-200 hover:border-border-default hover:shadow-md; }
+  .text-gold-gradient { @apply bg-gradient-to-r from-gold-light via-gold-primary to-gold-dark bg-clip-text text-transparent; }
+  .glass { @apply bg-bg-elevated/80 backdrop-blur-xl border border-border-subtle; }
+  
+  .stat-card { @apply bg-bg-secondary border border-border-subtle rounded-xl p-6; }
+  .table-container { @apply overflow-x-auto rounded-lg border border-border-subtle; }
+  
+  .btn-icon { @apply p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-tertiary transition-colors; }
+  .input-admin { @apply w-full px-4 py-2.5 bg-bg-tertiary border border-border-default rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-gold-primary focus:border-transparent; }
+}
+
+@layer utilities {
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+}

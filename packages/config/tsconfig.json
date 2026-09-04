@@ -1,0 +1,47 @@
+{
+  "base": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@barbershop/ui/*": ["packages/ui/src/*"],
+      "@barbershop/db/*": ["packages/database/src/*"],
+      "@barbershop/types/*": ["packages/types/*"],
+      "@barbershop/utils/*": ["packages/utils/*"]
+    }
+  },
+  "nextjs": {
+    "extends": "./base.json",
+    "plugins": ["next"],
+    "rules": {
+      "@next/next/no-html-link-for-pages": "off",
+      "react/no-unescaped-entities": "off"
+    }
+  },
+  "react-library": {
+    "extends": "./base.json",
+    "compilerOptions": {
+      "declaration": true,
+      "declarationMap": true,
+      "outDir": "dist",
+      "rootDir": "src"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
+  }
+}

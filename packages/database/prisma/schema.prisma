@@ -1,0 +1,405 @@
+// Barbershop Database Schema - PostgreSQL + Prisma
+// Adapted from existing MySQL schema for modern stack
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== ENUMS ====================
+enum Role {
+  CUSTOMER
+  BARBER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum ServiceCategory {
+  HAIRCUT
+  BEARD
+  COLORING
+  TREATMENT
+  PACKAGE
+  KIDS
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+  RESCHEDULED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PARTIAL
+  REFUNDED
+  FAILED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  ONLINE
+  LOYALTY_POINTS
+  MIXED
+}
+
+enum NotificationType {
+  APPOINTMENT_CONFIRMED
+  APPOINTMENT_REMINDER_24H
+  APPOINTMENT_REMINDER_2H
+  APPOINTMENT_CANCELLED
+  APPOINTMENT_RESCHEDULED
+  BARBER_ASSIGNED
+  REVIEW_REQUEST
+  PROMOTION
+  LOYALTY_REWARD
+  SYSTEM
+}
+
+enum LoyaltyTransactionType {
+  EARN
+  REDEEM
+  EXPIRE
+  ADJUST
+}
+
+enum CancelledBy {
+  CUSTOMER
+  BARBER
+  ADMIN
+}
+
+// ==================== MODELS ====================
+
+model User {
+  id             String    @id @default(cuid())
+  email          String?   @unique
+  phone          String    @unique
+  passwordHash   String?
+  name           String
+  avatar         String?
+  role           Role      @default(CUSTOMER)
+  emailVerified  DateTime?
+  phoneVerified  DateTime?
+  isActive       Boolean   @default(true)
+  lastLoginAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Relations
+  customer       Customer?
+  barber         Barber?
+  accounts       Account[]
+  sessions       Session[]
+  notifications  Notification[]
+  favorites      Favorite[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Customer {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  loyaltyPoints      Int      @default(0)
+  totalVisits        Int      @default(0)
+  totalSpent         Decimal  @default(0) @db.Decimal(10, 2)
+  birthDate          DateTime?
+  notes              String?  @db.Text
+  preferredBarberId  String?
+  preferredBarber    Barber?  @relation("PreferredBarber", fields: [preferredBarberId], references: [id], onDelete: SetNull)
+  marketingConsent   Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  appointments       Appointment[]
+  reviews            Review[]
+  loyaltyTransactions LoyaltyTransaction[]
+
+  @@map("customers")
+}
+
+model Barber {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio              String?  @db.Text
+  experienceYears  Int      @default(0)
+  specialties      String[] // ["Klasik Kesim", "Fade", "Sakal Tasarımı", "Boya"]
+  rating           Float    @default(0)
+  reviewCount      Int      @default(0)
+  isActive         Boolean  @default(true)
+  hireDate         DateTime @default(now())
+  commissionRate   Float    @default(40) // %40
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  appointments     Appointment[]
+  schedules        BarberSchedule[]
+  reviews          Review[]
+  chairs           Chair[]
+  preferredBy      Customer[] @relation("PreferredBarber")
+  services         BarberService[]
+  portfolio        PortfolioImage[]
+
+  @@map("barbers")
+}
+
+model BarberSchedule {
+  id        String   @id @default(cuid())
+  barberId  String
+  barber    Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  dayOfWeek Int      // 0-6 (Pazar=0, Pazartesi=1, ... Cumartesi=6)
+  startTime String   // "09:00"
+  endTime   String   // "19:00"
+  breakStart String? // "13:00"
+  breakEnd   String? // "14:00"
+  isActive  Boolean  @default(true)
+
+  @@unique([barberId, dayOfWeek])
+  @@map("barber_schedules")
+}
+
+model Chair {
+  id       String  @id @default(cuid())
+  number   Int     @unique
+  name     String? // "VIP Koltuk", "Standart 1"
+  isActive Boolean @default(true)
+  barberId String?
+  barber   Barber? @relation(fields: [barberId], references: [id], onDelete: SetNull)
+
+  appointments Appointment[]
+
+  @@map("chairs")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  duration    Int      // dakika cinsinden
+  price       Decimal  @db.Decimal(10, 2)
+  category    ServiceCategory
+  image       String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  barberServices BarberService[]
+  appointments     AppointmentService[]
+
+  @@map("services")
+}
+
+model BarberService {
+  id        String  @id @default(cuid())
+  barberId  String
+  barber    Barber  @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  price     Decimal? @db.Decimal(10, 2) // Berber özel fiyat (opsiyonel)
+
+  @@unique([barberId, serviceId])
+  @@map("barber_services")
+}
+
+model Appointment {
+  id              String           @id @default(cuid())
+  customerId      String
+  customer        Customer         @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  barberId        String
+  barber          Barber           @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  chairId         String?
+  chair           Chair?           @relation(fields: [chairId], references: [id], onDelete: SetNull)
+  status          AppointmentStatus @default(PENDING)
+  startTime       DateTime
+  endTime         DateTime
+  totalDuration   Int              // dakika
+  totalPrice      Decimal          @db.Decimal(10, 2)
+  discount        Decimal          @default(0) @db.Decimal(10, 2)
+  finalPrice      Decimal          @db.Decimal(10, 2)
+  paymentStatus   PaymentStatus    @default(PENDING)
+  paymentMethod   PaymentMethod?
+  paymentId       String?
+  notes           String?          @db.Text
+  cancellationReason String?
+  cancelledAt     DateTime?
+  cancelledBy     CancelledBy?
+  reminderSent    Boolean          @default(false)
+  reminder2hSent  Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  services        AppointmentService[]
+  review          Review?
+  loyaltyTransactions LoyaltyTransaction[]
+
+  @@index([customerId, status])
+  @@index([barberId, startTime])
+  @@index([startTime, status])
+  @@map("appointments")
+}
+
+model AppointmentService {
+  id            String  @id @default(cuid())
+  appointmentId String
+  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  serviceId     String
+  service       Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  price         Decimal     @db.Decimal(10, 2)
+  duration      Int
+  sortOrder     Int         @default(0)
+
+  @@map("appointment_services")
+}
+
+model Review {
+  id            String   @id @default(cuid())
+  customerId    String
+  customer      Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  barberId      String
+  barber        Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  appointmentId String   @unique
+  appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  rating        Int      // 1-5
+  comment       String?  @db.Text
+  isAnonymous   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  message   String   @db.Text
+  data      Json?    // { appointmentId, actionUrl, ... }
+  isRead    Boolean  @default(false)
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  barberId  String?
+  barber    Barber?  @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, barberId, serviceId])
+  @@map("favorites")
+}
+
+model LoyaltyTransaction {
+  id            String   @id @default(cuid())
+  customerId    String
+  customer      Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  appointmentId String?
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  type          LoyaltyTransactionType
+  points        Int      // Pozitif = kazanım, Negatif = harcama
+  balanceAfter  Int      // İşlem sonrası bakiye
+  description   String?
+  expiresAt     DateTime?
+  createdAt     DateTime @default(now())
+
+  @@index([customerId])
+  @@index([appointmentId])
+  @@map("loyalty_transactions")
+}
+
+model LoyaltyTier {
+  id          String   @id @default(cuid())
+  name        String   @unique // "Bronze", "Silver", "Gold", "Platinum"
+  minPoints   Int      @unique
+  discount    Float    // %10, %15, %20
+  benefits    String[] // ["Ücretsiz sakal tıraşı", "Öncelikli randevu"]
+  color       String   // Hex color
+  icon        String
+  createdAt   DateTime @default(now())
+
+  @@map("loyalty_tiers")
+}
+
+model PortfolioImage {
+  id        String   @id @default(cuid())
+  barberId  String
+  barber    Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  url       String
+  caption   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("portfolio_images")
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  category  String   // "general", "booking", "notification", "payment", "appearance"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
