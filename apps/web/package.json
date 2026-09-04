@@ -57,7 +57,8 @@
     "@barbershop/types": "workspace:*",
     "@barbershop/utils": "workspace:*",
     "@barbershop/payments": "workspace:*",
-    "@barbershop/notifications": "workspace:*"
+    "@barbershop/notifications": "workspace:*",
+    "@barbershop/web-hooks": "workspace:*"
   },
   "devDependencies": {
     "@barbershop/config": "workspace:*",
