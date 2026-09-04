@@ -65,12 +65,12 @@ export default function LoginPage() {
         name: 'Demo Kullanıcı',
         avatar: null,
         role: 'CUSTOMER' as const,
-        emailVerified: new Date().toISOString(),
-        phoneVerified: new Date().toISOString(),
+        emailVerified: new Date(),
+        phoneVerified: new Date(),
         isActive: true,
         lastLoginAt: null,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
       
       setAuth(user, 'mock-access-token', 'mock-refresh-token');
